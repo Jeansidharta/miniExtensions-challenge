@@ -1,23 +1,20 @@
-/* eslint-disable @next/next/no-img-element */
-import { RecaptchaVerifier } from 'firebase/auth';
-import { firebaseAuth } from '@/components/firebase/firebaseAuth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from '@/components/ui/Modal';
 import { useRouter } from 'next/navigation';
 import ToastBox from '@/components/ui/ToastBox';
 import { useAppDispatch } from '@/components/redux/store';
-import { showToast } from '@/components/redux/toast/toastSlice';
 import Input from '@/components/ui/Input';
 import LoadingButton from '@/components/ui/LoadingButton';
 import Logout from './Logout';
 import { useAuth } from '../useAuth';
 import { LoadingStateTypes } from '../redux/types';
+import { useVerifyPhoneNumberLoading, verifyPhoneNumber } from '../redux/auth/verifyPhoneNumber';
+import { useRecapcha } from '../useRecaptcha';
 import {
-    sendVerificationCode,
-    useSendVerificationCodeLoading,
-    useVerifyPhoneNumberLoading,
-    verifyPhoneNumber,
-} from '../redux/auth/verifyPhoneNumber';
+    phoneNumberLinkVerificationCode,
+    usePhoneNumberLinkVerificationCodeLoading,
+} from '../redux/auth/phoneNumberLink';
+import { ConfirmationResult } from 'firebase/auth';
 
 const PhoneVerification = () => {
     const dispatch = useAppDispatch();
@@ -26,30 +23,29 @@ const PhoneVerification = () => {
     const [OTPCode, setOTPCode] = useState('');
     const [show, setShow] = useState(false);
 
-    const sendVerificationLoading = useSendVerificationCodeLoading();
+    const sendVerificationLoading = usePhoneNumberLinkVerificationCodeLoading();
     const verifyPhoneNumberLoading = useVerifyPhoneNumberLoading();
 
-    const [recaptcha, setRecaptcha] = useState<RecaptchaVerifier | null>(null);
-    const [recaptchaResolved, setRecaptchaResolved] = useState(false);
-    const [verificationId, setVerificationId] = useState('');
-    const router = useRouter();
+    const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+
+    const { recaptcha, isCaptchaResolved, resetRecaptcha } = useRecapcha('recaptcha-container');
 
     // Sending OTP and storing id to verify it later
     const handleSendVerification = async () => {
         if (auth.type !== LoadingStateTypes.LOADED) return;
 
         dispatch(
-            sendVerificationCode({
+            phoneNumberLinkVerificationCode({
                 phoneNumber,
                 auth,
                 recaptcha,
-                recaptchaResolved,
+                recaptchaResolved: isCaptchaResolved,
                 callback: (result) => {
                     if (result.type === 'error') {
-                        setRecaptchaResolved(false);
+                        resetRecaptcha();
                         return;
                     }
-                    setVerificationId(result.verificationId);
+                    setConfirmationResult(result.confirmationResult);
                     setShow(true);
                 },
             })
@@ -61,43 +57,18 @@ const PhoneVerification = () => {
         if (auth.type !== LoadingStateTypes.LOADED) return;
         dispatch(
             verifyPhoneNumber({
-                auth,
+                confirmationResult: confirmationResult!,
                 OTPCode,
-                verificationId,
                 callback: (result) => {
                     if (result.type === 'error') {
                         return;
                     }
                     // needed to reload auth user
-                    router.refresh();
+                    // router.refresh();
                 },
             })
         );
     };
-
-    // generating the recaptcha on page render
-    useEffect(() => {
-        const captcha = new RecaptchaVerifier(firebaseAuth, 'recaptcha-container', {
-            size: 'normal',
-            callback: () => {
-                setRecaptchaResolved(true);
-            },
-
-            'expired-callback': () => {
-                setRecaptchaResolved(false);
-                dispatch(
-                    showToast({
-                        message: 'Recaptcha Expired, please verify it again',
-                        type: 'info',
-                    })
-                );
-            },
-        });
-
-        captcha.render();
-
-        setRecaptcha(captcha);
-    }, []);
 
     return (
         <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">

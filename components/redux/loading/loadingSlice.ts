@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginWithEmail } from '../auth/loginWithEmail';
-import { sendVerificationCode, verifyPhoneNumber } from '../auth/verifyPhoneNumber';
+import { verifyPhoneNumber } from '../auth/verifyPhoneNumber';
+import { loginWithPhoneNumberVerificationCode } from '../auth/loginWithPhoneNumber';
+import { phoneNumberLinkVerificationCode } from '../auth/phoneNumberLink';
 
 export interface LoadingStates {
     [key: string]: boolean;
@@ -8,7 +10,8 @@ export interface LoadingStates {
 
 const initialState: LoadingStates = {
     loginWithEmail: false,
-    sendVerificationCode: false,
+    phoneNumberLinkVerificationCode: false,
+    loginWithPhoneNumberVerificationCode: false,
     verifyPhoneNumber: false,
 };
 
@@ -28,14 +31,23 @@ export const loadingSlice = createSlice({
             state.loginWithEmail = false;
         });
         // Send Verify Phone Number
-        builder.addCase(sendVerificationCode.pending, (state) => {
-            state.sendVerificationCode = true;
+        builder.addCase(phoneNumberLinkVerificationCode.pending, (state) => {
+            state.phoneNumberLinkVerificationCode = true;
         });
-        builder.addCase(sendVerificationCode.fulfilled, (state) => {
-            state.sendVerificationCode = false;
+        builder.addCase(phoneNumberLinkVerificationCode.fulfilled, (state) => {
+            state.phoneNumberLinkVerificationCode = false;
         });
-        builder.addCase(sendVerificationCode.rejected, (state) => {
-            state.sendVerificationCode = false;
+        builder.addCase(phoneNumberLinkVerificationCode.rejected, (state) => {
+            state.phoneNumberLinkVerificationCode = false;
+        });
+        builder.addCase(loginWithPhoneNumberVerificationCode.pending, (state) => {
+            state.loginWithPhoneNumberVerificationCode = true;
+        });
+        builder.addCase(loginWithPhoneNumberVerificationCode.fulfilled, (state) => {
+            state.loginWithPhoneNumberVerificationCode = false;
+        });
+        builder.addCase(loginWithPhoneNumberVerificationCode.rejected, (state) => {
+            state.loginWithPhoneNumberVerificationCode = false;
         });
         // Verify Phone Number
         builder.addCase(verifyPhoneNumber.pending, (state) => {

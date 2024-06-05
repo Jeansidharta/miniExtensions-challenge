@@ -1,59 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import { GoogleAuthProvider } from 'firebase/auth';
-import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import ToastBox from '@/components/ui/ToastBox';
-import { useAppDispatch } from '@/components/redux/store';
-import { useAuth } from '@/components/useAuth';
-import Spinner from '@/components/Spinner';
 import LoginWithGoogleButton from '@/components/ui/LoginWithGoogleButton';
-import Input from '@/components/ui/Input';
-import LoadingButton from '@/components/ui/LoadingButton';
 import SignUpModal from '@/components/ui/SignUpModal';
-import { loginWithEmail, useIsLoginWithEmailLoading } from '@/components/redux/auth/loginWithEmail';
-import { LoadingStateTypes } from '@/components/redux/types';
+import LoginWithPhoneButton from '@/components/ui/LoginWithPhoneButton';
+import { LoginFormWithEmail } from '@/components/ui/LoginFormEmail';
+import { LoginFormPhone } from '@/components/ui/LoginFormPhone';
+import LoginWithEmailButton from '@/components/ui/LoginWithEmailButton';
 
 export const googleLoginProvider = new GoogleAuthProvider();
 
+enum LoginMethods {
+    Email = 'email',
+    Phone = 'phone',
+}
+
 const LoginPage: NextPage = () => {
-    const dispatch = useAppDispatch();
-    const auth = useAuth();
+    const [showRegistration, setShowRegistration] = useState(false);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [disableSubmit, setDisableSubmit] = useState(true);
-    const isLoading = useIsLoginWithEmailLoading();
-
-    const [showRegistration, setshowRegistration] = useState(false);
-    const router = useRouter();
-
-    // Realtime validation to enable submit button
-    useEffect(() => {
-        if (email && password.length >= 6) {
-            setDisableSubmit(false);
-        } else {
-            setDisableSubmit(true);
-        }
-    }, [email, password]);
-
-    // Signing in with email and password and redirecting to home page
-    const signInWithEmail = useCallback(async () => {
-        await dispatch(
-            loginWithEmail({
-                type: 'login',
-                email,
-                password,
-            })
-        );
-    }, [email, password, dispatch]);
-
-    if (auth.type === LoadingStateTypes.LOADING) {
-        return <Spinner />;
-    } else if (auth.type === LoadingStateTypes.LOADED) {
-        router.push('/');
-        return <Spinner />;
-    }
+    const [loginMethod, setLoginMethod] = useState<LoginMethods>(LoginMethods.Email);
 
     return (
         <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
@@ -71,27 +38,11 @@ const LoginPage: NextPage = () => {
 
                 <div className="max-w-xl w-full rounded overflow-hidden shadow-lg py-2 px-4">
                     <div className="flex gap-4 mb-5 flex-col">
-                        <Input
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email"
-                            name="email"
-                            type="text"
-                        />
-                        <Input
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Password"
-                            name="password"
-                            type="password"
-                        />
-                        <LoadingButton
-                            onClick={signInWithEmail}
-                            disabled={disableSubmit}
-                            loading={isLoading}
-                        >
-                            Sign In
-                        </LoadingButton>
+                        {loginMethod === LoginMethods.Email ? (
+                            <LoginFormWithEmail />
+                        ) : loginMethod === LoginMethods.Phone ? (
+                            <LoginFormPhone />
+                        ) : undefined}
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-gray-300" />
@@ -101,6 +52,16 @@ const LoginPage: NextPage = () => {
                             </div>
                         </div>
                         <div className="mt-2 grid grid-cols-1 gap-3">
+                            {loginMethod !== LoginMethods.Phone && (
+                                <LoginWithPhoneButton
+                                    onClick={() => setLoginMethod(LoginMethods.Phone)}
+                                />
+                            )}
+                            {loginMethod !== LoginMethods.Email && (
+                                <LoginWithEmailButton
+                                    onClick={() => setLoginMethod(LoginMethods.Email)}
+                                />
+                            )}
                             <LoginWithGoogleButton />
                         </div>
                         <div className="mt-6">
@@ -112,7 +73,7 @@ const LoginPage: NextPage = () => {
                                 </div>
                                 <div className="relative flex justify-center text-sm">
                                     <div
-                                        onClick={() => setshowRegistration(true)}
+                                        onClick={() => setShowRegistration(true)}
                                         className="ml-2 cursor-pointer font-medium text-violet-600 hover:text-violet-400"
                                     >
                                         Sign Up
@@ -121,7 +82,7 @@ const LoginPage: NextPage = () => {
                             </div>
                         </div>
                     </div>
-                    <SignUpModal open={showRegistration} setOpen={setshowRegistration} />
+                    <SignUpModal open={showRegistration} setOpen={setShowRegistration} />
                 </div>
             </div>
             <ToastBox />

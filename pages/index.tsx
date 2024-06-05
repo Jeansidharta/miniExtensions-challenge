@@ -2,18 +2,15 @@ import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import { AuthGuard, useAuth } from '@/components/useAuth';
 import Logout from '@/components/ui/Logout';
-import { useEffect } from 'react';
 import { LoadingStateTypes } from '@/components/redux/types';
 import PhoneVerification from '@/components/ui/PhoneVerification';
-import { useHomePage } from '@/components/redux/homePage/homePageSelectors';
-import { fetchHomePageData } from '@/components/redux/homePage/fetchHomePageData';
 import { useAppDispatch } from '@/components/redux/store';
+import { fetchHomePageData } from '@/components/redux/homePage/fetchHomePageData';
+import { useEffect } from 'react';
 
 export function Home() {
     const dispatch = useAppDispatch();
     const auth = useAuth();
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    const homePageData = useHomePage();
 
     useEffect(() => {
         dispatch(fetchHomePageData());
@@ -27,8 +24,8 @@ export function Home() {
             </Head>
 
             {auth.type === LoadingStateTypes.LOADED &&
-            auth.user != null &&
-            auth.user.phoneNumber == null ? (
+                auth.user != null &&
+                auth.user.phoneNumber == null ? (
                 <PhoneVerification />
             ) : (
                 <main className={styles.main}>

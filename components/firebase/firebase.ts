@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { /* connectFirestoreEmulator, */ getFirestore } from 'firebase/firestore';
-import { /* connectStorageEmulator, */ getStorage } from 'firebase/storage';
 // import { isDev } from '../isDev';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -9,19 +8,19 @@ import { /* connectStorageEmulator, */ getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: 'FILL_ME_IN',
-    authDomain: 'FILL_ME_IN',
-    projectId: 'FILL_ME_IN',
-    storageBucket: 'FILL_ME_IN',
-    messagingSenderId: 'FILL_ME_IN',
-    appId: 'FILL_ME_IN',
+    apiKey: 'AIzaSyAbCYuMI6QlR4cTzn5ilKdajpJqS8_WQic',
+    authDomain: 'miniext-project.firebaseapp.com',
+    projectId: 'miniext-project',
+    storageBucket: 'miniext-project.appspot.com',
+    messagingSenderId: '1086947359487',
+    appId: '1:1086947359487:web:7b276ce1a131292a84aaca',
 };
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 
 export const firestore = getFirestore(firebaseApp);
-export const baseBucketName = 'FILL_ME_IN';
+export const baseBucketName = 'BaseBucket';
 
 /* if (isDev) {
     connectFirestoreEmulator(firestore, '127.0.0.1', 8081);

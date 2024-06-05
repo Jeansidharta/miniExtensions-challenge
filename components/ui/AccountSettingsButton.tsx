@@ -11,6 +11,7 @@ import Link from 'next/link';
 export const accountSettingsLabel = 'account settings';
 export const settingsPageName = 'Settings';
 export const signOutOptionText = 'Sign Out';
+
 /**
  * Button that is shown in the top right corner of the app bar that allows
  * the user to sign out or go to their account settings.
