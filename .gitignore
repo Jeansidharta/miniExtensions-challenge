@@ -5,6 +5,8 @@
 .env.dev
 .husky
 
+firebase-export-*
+
 # dependencies
 /node_modules
 /.pnp
