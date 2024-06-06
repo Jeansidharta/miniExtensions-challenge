@@ -5,9 +5,7 @@ import { verifyPhoneNumber } from '../redux/auth/verifyPhoneNumber';
 import { useAppDispatch } from '../redux/store';
 import { useRouter } from 'next/router';
 
-interface LoginPhoneProps { }
-
-export const LoginPhone = ({ }: LoginPhoneProps) => {
+export const LoginPhone = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
 

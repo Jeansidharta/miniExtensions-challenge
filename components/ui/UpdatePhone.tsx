@@ -2,10 +2,9 @@ import { ConfirmationResult, RecaptchaVerifier, User } from 'firebase/auth';
 import { FormPhone } from './FormPhone';
 import { verifyPhoneNumber } from '../redux/auth/verifyPhoneNumber';
 import { useAppDispatch } from '../redux/store';
-import { useAuth } from '../useAuth';
-import { LoadingStateTypes } from '../redux/types';
 import { phoneNumberLinkVerificationCode } from '../redux/auth/phoneNumberLink';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import ToastBox from './ToastBox';
 
 interface LoginPhoneProps {
@@ -58,7 +57,7 @@ export const UpdatePhone = ({ user }: LoginPhoneProps) => {
         <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8">
                 <div>
-                    <img
+                    <Image
                         className="w-auto h-12 mx-auto"
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"

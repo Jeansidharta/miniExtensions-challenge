@@ -68,7 +68,7 @@ const LoginPage: NextPage = () => {
                             <div className="flex justify-center">
                                 <div className="relative flex justify-center text-sm">
                                     <div className="font-small text-black-400">
-                                        Don't have an account?
+                                        Don&apos;t have an account?
                                     </div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">

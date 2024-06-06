@@ -4,10 +4,9 @@ import LoadingButton from './LoadingButton';
 import Input from './Input';
 import { sendEmailLink, useIsSendEmailLinkLoading } from '../redux/auth/sendEmailLink';
 import { useState } from 'react';
+import Image from 'next/image';
 
-interface LoginEmailProps { }
-
-export const UpdateEmail = ({ }: LoginEmailProps) => {
+export const UpdateEmail = () => {
     const dispatch = useAppDispatch();
     const [email, setEmail] = useState('');
     const [linkSentTime, setLinkSentTime] = useState<null | number>(null);
@@ -24,7 +23,7 @@ export const UpdateEmail = ({ }: LoginEmailProps) => {
         <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8">
                 <div>
-                    <img
+                    <Image
                         className="w-auto h-12 mx-auto"
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"

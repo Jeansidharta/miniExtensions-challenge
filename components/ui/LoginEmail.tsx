@@ -6,9 +6,7 @@ import { useAuth } from '../useAuth';
 import Spinner from '../Spinner';
 import { LoadingStateTypes } from '../redux/types';
 
-interface LoginEmail { }
-
-export const LoginEmail = ({ }: LoginEmail) => {
+export const LoginEmail = () => {
     const auth = useAuth();
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -16,20 +14,20 @@ export const LoginEmail = ({ }: LoginEmail) => {
     const isLoading = useIsLoginWithEmailLoading();
 
     async function handleSubmit(email: string, password: string) {
-        // Signing in with email and password and redirecting to home page
         await dispatch(
             loginWithEmail({
                 type: 'login',
                 email,
                 password,
+                callback: (response) => {
+                    if (response.type === 'error') return;
+                    router.push('/');
+                },
             })
         );
     }
 
     if (auth.type === LoadingStateTypes.LOADING) {
-        return <Spinner />;
-    } else if (auth.type === LoadingStateTypes.LOADED) {
-        router.push('/');
         return <Spinner />;
     }
 

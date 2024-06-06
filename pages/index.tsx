@@ -15,9 +15,7 @@ export function Home() {
 
     useEffect(() => {
         dispatch(fetchHomePageData());
-    }, []);
-
-    console.log(auth);
+    }, [dispatch]);
 
     if (auth.type !== LoadingStateTypes.LOADED) return null;
 

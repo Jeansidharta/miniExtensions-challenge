@@ -9,7 +9,7 @@ export const useRecapcha = (targetId: string) => {
     const [isResolved, setIsResolved] = useState<boolean>(false);
     const [recaptcha, setRecaptcha] = useState<RecaptchaVerifier | null>(null);
 
-    const resetRecaptcha = useCallback(() => setIsResolved(false), [setRecaptcha]);
+    const resetRecaptcha = useCallback(() => setIsResolved(false), []);
 
     useEffect(() => {
         const captcha = new RecaptchaVerifier(firebaseAuth, targetId, {
@@ -31,7 +31,7 @@ export const useRecapcha = (targetId: string) => {
         captcha.render();
 
         setRecaptcha(captcha);
-    }, []);
+    }, [dispatch, targetId]);
 
     return { isCaptchaResolved: isResolved, recaptcha, resetRecaptcha };
 };

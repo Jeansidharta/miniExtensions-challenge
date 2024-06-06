@@ -8,7 +8,15 @@ import { useAppSelector } from '../store';
 
 export const loginWithEmail = createAsyncThunk(
     'login',
-    async (args: { type: 'login' | 'sign-up'; email: string; password: string }, { dispatch }) => {
+    async (
+        args: {
+            type: 'login' | 'sign-up';
+            email: string;
+            password: string;
+            callback: (args: { type: 'success' | 'error' }) => void;
+        },
+        { dispatch }
+    ) => {
         try {
             if (!isEmail(args.email)) {
                 dispatch(
@@ -31,9 +39,10 @@ export const loginWithEmail = createAsyncThunk(
 
             if (args.type === 'sign-up') {
                 await createUserWithEmailAndPassword(firebaseAuth, args.email, args.password);
+            } else {
+                await signInWithEmailAndPassword(firebaseAuth, args.email, args.password);
             }
-
-            await signInWithEmailAndPassword(firebaseAuth, args.email, args.password);
+            args.callback({ type: 'success' });
         } catch (e: any) {
             dispatch(
                 showToast({
@@ -41,6 +50,7 @@ export const loginWithEmail = createAsyncThunk(
                     type: 'error',
                 })
             );
+            args.callback({ type: 'error' });
         }
     }
 );

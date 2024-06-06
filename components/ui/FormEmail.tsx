@@ -6,9 +6,14 @@ import LoadingButton from '@/components/ui/LoadingButton';
 interface LoginFormEmailProps {
     onSubmit?: (email: string, password: string) => void;
     isLoading?: boolean;
+    actionString?: string;
 }
 
-export const FormEmail = ({ onSubmit, isLoading }: LoginFormEmailProps) => {
+export const FormEmail = ({
+    onSubmit,
+    isLoading,
+    actionString = 'Submit',
+}: LoginFormEmailProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -37,7 +42,7 @@ export const FormEmail = ({ onSubmit, isLoading }: LoginFormEmailProps) => {
                 type="password"
             />
             <LoadingButton type="submit" disabled={disableSubmit} loading={isLoading}>
-                Sign In
+                {actionString}
             </LoadingButton>
         </form>
     );
