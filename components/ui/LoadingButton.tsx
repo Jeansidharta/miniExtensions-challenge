@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 import Spinner from '../Spinner';
+import clsx from 'clsx';
 
 interface LoadingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     loading?: boolean;
@@ -15,9 +16,12 @@ interface LoadingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const LoadingButton = (props: LoadingButtonProps) => {
     return (
         <button
-            className="transition-colors bg-violet-600 text-white font-medium px-4 py-2 rounded-md hover:bg-violet-700 disabled:bg-violet-400"
-            disabled={props.loading || props.disabled}
             {...props}
+            className={clsx(
+                'transition-colors bg-violet-600 text-white font-medium px-4 py-2 rounded-md hover:bg-violet-700 disabled:bg-violet-400',
+                props.className
+            )}
+            disabled={props.loading || props.disabled}
         >
             {props.loading ? (
                 props.loadingText ? (

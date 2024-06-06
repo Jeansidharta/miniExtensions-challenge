@@ -9,6 +9,7 @@ import LoginWithPhoneButton from '@/components/ui/LoginWithPhoneButton';
 import LoginWithEmailButton from '@/components/ui/LoginWithEmailButton';
 import { LoginPhone } from '@/components/ui/LoginPhone';
 import { LoginEmail } from '@/components/ui/LoginEmail';
+import Image from 'next/image';
 
 export const googleLoginProvider = new GoogleAuthProvider();
 
@@ -26,7 +27,7 @@ const LoginPage: NextPage = () => {
         <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8">
                 <div>
-                    <img
+                    <Image
                         className="w-auto h-12 mx-auto"
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"

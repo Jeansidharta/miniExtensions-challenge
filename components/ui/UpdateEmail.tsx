@@ -5,6 +5,7 @@ import Input from './Input';
 import { sendEmailLink, useIsSendEmailLinkLoading } from '../redux/auth/sendEmailLink';
 import { useState } from 'react';
 import Image from 'next/image';
+import { Countdown } from './Countdown';
 
 export const UpdateEmail = () => {
     const dispatch = useAppDispatch();
@@ -27,15 +28,47 @@ export const UpdateEmail = () => {
                         className="w-auto h-12 mx-auto"
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"
+                        width={50}
+                        height={50}
                     />
                     <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
-                        Sign in to your account
+                        Link your email
                     </h2>
                 </div>
 
                 <div className="max-w-xl w-full rounded overflow-hidden shadow-lg py-2 px-4">
                     {linkSentTime ? (
-                        <div>Link sent to your email {email}!</div>
+                        <div className="flex flex-col gap-4">
+                            <span>Link sent to your email {email}</span>
+                            <Countdown
+                                renderNotDone={(remainingTime) => (
+                                    <>
+                                        You can resend the link in {Math.ceil(remainingTime / 1000)}{' '}
+                                        seconds
+                                    </>
+                                )}
+                                renderDone={() => (
+                                    <LoadingButton
+                                        onClick={handleSubmit}
+                                        loading={isLoading}
+                                        className="w-full"
+                                    >
+                                        Resend link
+                                    </LoadingButton>
+                                )}
+                                duration={30 * 1000}
+                                startTime={linkSentTime}
+                            />
+                            <LoadingButton
+                                className="bg-transparent text-black hover:bg-transparent"
+                                onClick={() => {
+                                    setEmail('');
+                                    setLinkSentTime(null);
+                                }}
+                            >
+                                Not your email?
+                            </LoadingButton>
+                        </div>
                     ) : (
                         <form
                             className="flex gap-4 flex-col"
