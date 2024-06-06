@@ -13,8 +13,7 @@ interface FormPhoneNumberProps {
  * Form that asks the user for their OTP code
  */
 export const FormPhoneNumber = ({ onSubmit }: FormPhoneNumberProps) => {
-    // TODO - Remove debug number
-    const [phoneNumber, setPhoneNumber] = useState('+1 330 599 9526');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const { recaptcha, isCaptchaResolved } = useRecapcha('recaptcha-container');
 
     const disableSubmit = Boolean(phoneNumber.length < 6) || !isCaptchaResolved;

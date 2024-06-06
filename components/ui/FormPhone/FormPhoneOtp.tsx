@@ -16,8 +16,7 @@ interface FormPhoneOtpProps {
  * Form that asks the user for their phone number with a captcha
  */
 export const FormPhoneOtp = ({ phoneNumber, onReset, onSubmit }: FormPhoneOtpProps) => {
-    // TODO - remove debug value
-    const [otpCode, setOTPCode] = useState('123456');
+    const [otpCode, setOTPCode] = useState('');
 
     return (
         <form
