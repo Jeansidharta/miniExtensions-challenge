@@ -15,9 +15,9 @@ export const verifyPhoneNumber = createAsyncThunk(
                 args:
                     | { type: 'success' }
                     | {
-                        type: 'error';
-                        message: string;
-                    }
+                          type: 'error';
+                          message: string;
+                      }
             ) => void;
         },
         { dispatch }

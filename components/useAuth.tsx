@@ -8,31 +8,31 @@ import Header from './ui/Header';
 
 export type AuthContextType =
     | {
-        type: LoadingStateTypes.LOADING;
-    }
+          type: LoadingStateTypes.LOADING;
+      }
     | {
-        type: LoadingStateTypes.NOT_LOADED;
-    }
+          type: LoadingStateTypes.NOT_LOADED;
+      }
     | {
-        type: LoadingStateTypes.LOADED;
-        user: User;
-    };
+          type: LoadingStateTypes.LOADED;
+          user: User;
+      };
 
 export const useAuth = (): AuthContextType => {
     const [user, loading] = useAuthState(firebaseAuth);
 
     return loading
         ? {
-            type: LoadingStateTypes.LOADING,
-        }
+              type: LoadingStateTypes.LOADING,
+          }
         : user == null
-            ? {
-                type: LoadingStateTypes.NOT_LOADED,
-            }
-            : {
-                type: LoadingStateTypes.LOADED,
-                user: user,
-            };
+        ? {
+              type: LoadingStateTypes.NOT_LOADED,
+          }
+        : {
+              type: LoadingStateTypes.LOADED,
+              user: user,
+          };
 };
 
 export const AuthGuard = (props: { children: React.ReactElement }): React.ReactElement => {

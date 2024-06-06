@@ -16,9 +16,9 @@ export const phoneNumberLinkVerificationCode = createAsyncThunk(
                 args:
                     | { type: 'success'; confirmationResult: ConfirmationResult }
                     | {
-                        type: 'error';
-                        message: string;
-                    }
+                          type: 'error';
+                          message: string;
+                      }
             ) => void;
         },
         { dispatch }
