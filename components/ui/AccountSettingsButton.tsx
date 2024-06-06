@@ -30,13 +30,7 @@ const AccountSettingsButton = () => {
         <Menu as="div" className="relative inline-block min-w-0 text-left">
             <div>
                 <Menu.Button className="max-w-full flex items-center rounded-full text-gray-400 hover:text-gray-600 focus:outline-none">
-                    <button
-                        type="button"
-                        className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-theme-500 focus:outline-none"
-                        aria-label={accountSettingsLabel}
-                    >
-                        <UserCircleIcon className="h-6 w-6" />
-                    </button>
+                    <UserCircleIcon className="h-6 w-6" />
                 </Menu.Button>
             </div>
 

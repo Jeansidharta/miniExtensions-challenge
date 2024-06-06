@@ -5,9 +5,13 @@ import { useRecapcha } from '../../useRecaptcha';
 import { RecaptchaVerifier } from 'firebase/auth';
 
 interface FormPhoneNumberProps {
+    /** Callback for when the user submits their OTP code */
     onSubmit?: (phoneNumber: string, recaptcha: RecaptchaVerifier) => void;
 }
 
+/**
+ * Form that asks the user for their OTP code
+ */
 export const FormPhoneNumber = ({ onSubmit }: FormPhoneNumberProps) => {
     // TODO - Remove debug number
     const [phoneNumber, setPhoneNumber] = useState('+1 330 599 9526');

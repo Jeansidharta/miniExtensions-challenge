@@ -6,6 +6,8 @@ import { phoneNumberLinkVerificationCode } from '../redux/auth/phoneNumberLink';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import ToastBox from './ToastBox';
+import Logout from './Logout';
+import SecondaryButton from './SecondaryButton';
 
 interface LoginPhoneProps {
     user: User;
@@ -58,12 +60,14 @@ export const UpdatePhone = ({ user }: LoginPhoneProps) => {
             <div className="w-full max-w-md space-y-8">
                 <div>
                     <Image
+                        width={50}
+                        height={50}
                         className="w-auto h-12 mx-auto"
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
-                        Sign in to your account
+                        Link your phone number
                     </h2>
                 </div>
 
@@ -72,6 +76,7 @@ export const UpdatePhone = ({ user }: LoginPhoneProps) => {
                         onSubmitPhoneNumber={handleSubmitPhoneNumber}
                         onSubmitOtp={handleSubmitOtp}
                     />
+                    <Logout className="w-full my-2" />
                 </div>
             </div>
             <ToastBox />

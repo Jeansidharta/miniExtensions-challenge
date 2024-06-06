@@ -1,7 +1,9 @@
 import { useAppDispatch } from '../redux/store';
 import { logout } from '../redux/auth/logOut';
+import { ButtonHTMLAttributes } from 'react';
+import SecondaryButton from './SecondaryButton';
 
-export default function Logout() {
+export default function Logout(props: ButtonHTMLAttributes<HTMLButtonElement>) {
     const dispatch = useAppDispatch();
     const loggedOut = async () => {
         try {
@@ -11,11 +13,8 @@ export default function Logout() {
         }
     };
     return (
-        <button
-            onClick={loggedOut}
-            className="px-6 py-3 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
-        >
+        <SecondaryButton {...props} onClick={loggedOut}>
             Logout
-        </button>
+        </SecondaryButton>
     );
 }

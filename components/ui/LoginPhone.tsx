@@ -5,6 +5,11 @@ import { verifyPhoneNumber } from '../redux/auth/verifyPhoneNumber';
 import { useAppDispatch } from '../redux/store';
 import { useRouter } from 'next/router';
 
+/**
+ * A form that will login the user using their phone number. It will also send
+ * and OTP (One Time Password) code to the user when the phone number is provided,
+ * and will verify it.
+ */
 export const LoginPhone = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();

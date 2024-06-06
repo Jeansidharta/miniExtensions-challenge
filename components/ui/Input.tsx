@@ -10,11 +10,11 @@ type InputProps = InputHTMLAttributes<HTMLInputElement>;
 const Input = (props: InputProps) => {
     return (
         <input
+            {...props}
             className={clsx(
                 'border rounded-lg px-4 py-2 focus-visible:outline-violet-500',
                 props.className
             )}
-            {...props}
         />
     );
 };

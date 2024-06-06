@@ -1,40 +1,25 @@
 import { ButtonHTMLAttributes } from 'react';
 import Spinner from '../Spinner';
-import clsx from 'clsx';
+import { PrimaryButton } from './PrimaryButton';
 
 interface LoadingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    /** Optional boolean to show loading state */
     loading?: boolean;
+    /** Optional string to replace the loading spinner with text */
     loadingText?: string;
 }
 
-/**
- * @param props All props accepted by a button element
- * @param props.loading Optional boolean to show loading state
- * @param props.loadingText Optional string to replace the loading spinner with text
- * @returns
- */
-const LoadingButton = (props: LoadingButtonProps) => {
+const LoadingButton = ({ loading, disabled, loadingText, ...props }: LoadingButtonProps) => {
     return (
-        <button
-            {...props}
-            className={clsx(
-                'transition-colors bg-violet-600 text-white font-medium px-4 py-2 rounded-md hover:bg-violet-700 disabled:bg-violet-400',
-                props.className
-            )}
-            disabled={props.loading || props.disabled}
-        >
-            {props.loading ? (
-                props.loadingText ? (
-                    props.loadingText
-                ) : (
+        <PrimaryButton {...props} disabled={loading || disabled}>
+            {loading
+                ? loadingText || (
                     <div className="w-full flex items-center justify-center">
                         <Spinner theme="dark" />
                     </div>
                 )
-            ) : (
-                props.children
-            )}
-        </button>
+                : props.children}
+        </PrimaryButton>
     );
 };
 

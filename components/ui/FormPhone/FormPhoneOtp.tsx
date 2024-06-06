@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import Input from '../Input';
 import LoadingButton from '../LoadingButton';
+import SecondaryButton from '../SecondaryButton';
 
 interface FormPhoneOtpProps {
+    /** The phone number the OTP code was sent to. */
     phoneNumber: string;
+    /** Callback for when the user wants to reset the phone number */
     onReset?: () => void;
+    /** Callback for when the user submits their phone number */
     onSubmit?: (otp: string) => void;
 }
 
+/**
+ * Form that asks the user for their phone number with a captcha
+ */
 export const FormPhoneOtp = ({ phoneNumber, onReset, onSubmit }: FormPhoneOtpProps) => {
     // TODO - remove debug value
     const [otpCode, setOTPCode] = useState('123456');
@@ -18,12 +25,10 @@ export const FormPhoneOtp = ({ phoneNumber, onReset, onSubmit }: FormPhoneOtpPro
                 e.preventDefault();
                 if (onSubmit) onSubmit(otpCode);
             }}
-            className="max-w-xl w-full bg-white py-6 rounded-lg"
+            className="max-w-xl w-full bg-white pt-6 rounded-lg flex flex-col items-center"
         >
-            <p className="text-lg font-semibold text-center mb-10">
-                Code sent to {phoneNumber}. <span onClick={onReset}>Wrong number?</span>
-            </p>
-            <div className="px-4 flex items-center gap-4 pb-10">
+            <p className="text-center mb-2">Code sent to {phoneNumber}</p>
+            <div className="px-4 flex items-center gap-4">
                 <Input
                     value={otpCode}
                     type="text"
@@ -35,6 +40,9 @@ export const FormPhoneOtp = ({ phoneNumber, onReset, onSubmit }: FormPhoneOtpPro
                     Verify
                 </LoadingButton>
             </div>
+            <SecondaryButton onClick={onReset} className="mb-2 mt-8 w-full">
+                Wrong number?
+            </SecondaryButton>
         </form>
     );
 };

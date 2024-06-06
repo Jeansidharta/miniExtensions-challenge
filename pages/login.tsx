@@ -31,6 +31,8 @@ const LoginPage: NextPage = () => {
                         className="w-auto h-12 mx-auto"
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"
+                        width={50}
+                        height={50}
                     />
                     <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
                         Sign in to your account

@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import Input from '@/components/ui/Input';
 import LoadingButton from '@/components/ui/LoadingButton';
 
 interface LoginFormEmailProps {
+    /** Function called when the form submits */
     onSubmit?: (email: string, password: string) => void;
+    /** Wether the submit button should show a loading state */
     isLoading?: boolean;
-    actionString?: string;
+    /** Text displayed in the submit button */
+    actionString?: ReactNode;
 }
 
+/**
+ * The form used for asking an user thei email and password
+ */
 export const FormEmail = ({
     onSubmit,
     isLoading,

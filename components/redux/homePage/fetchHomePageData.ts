@@ -7,12 +7,10 @@ import { homePageActions } from './homePageSlice';
 export const fetchHomePageData = createAsyncThunk('fetchHomePageData', async (_, { dispatch }) => {
     dispatch(homePageActions.setIsLoading());
     try {
-        const response = await executeApiRequest({
+        await executeApiRequest({
             route: v1APIRoute.fetchHomePageData,
             body: {},
         });
-        // const data = await response;
-        console.log(response);
     } catch (e: any) {
         console.log('error', e);
         dispatch(

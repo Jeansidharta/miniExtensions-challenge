@@ -6,6 +6,9 @@ import { useAuth } from '../useAuth';
 import Spinner from '../Spinner';
 import { LoadingStateTypes } from '../redux/types';
 
+/**
+ * A form that will login the user using their email
+ */
 export const LoginEmail = () => {
     const auth = useAuth();
     const router = useRouter();
