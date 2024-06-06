@@ -1,9 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ConfirmationResult, RecaptchaVerifier, linkWithPhoneNumber } from 'firebase/auth';
+import { ConfirmationResult, RecaptchaVerifier, User, linkWithPhoneNumber } from 'firebase/auth';
 import { getFriendlyMessageFromFirebaseErrorCode } from './helpers';
 import { showToast } from '../toast/toastSlice';
-import { LoadingStateTypes } from '../types';
-import { AuthContextType } from '@/components/useAuth';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
@@ -12,7 +10,7 @@ export const phoneNumberLinkVerificationCode = createAsyncThunk(
     async (
         args: {
             phoneNumber: string;
-            auth: AuthContextType;
+            user: User;
             recaptcha: RecaptchaVerifier | null;
             callback: (
                 args:
@@ -25,9 +23,8 @@ export const phoneNumberLinkVerificationCode = createAsyncThunk(
         },
         { dispatch }
     ) => {
-        if (args.auth.type !== LoadingStateTypes.LOADED) return;
         if (!args.recaptcha) {
-            throw new Error ('You must provide a captcha');
+            throw new Error('You must provide a captcha');
         }
         if (args.phoneNumber.slice() === '' || args.phoneNumber.length < 10) {
             dispatch(
@@ -41,7 +38,7 @@ export const phoneNumberLinkVerificationCode = createAsyncThunk(
 
         try {
             const sentConfirmationCode = await linkWithPhoneNumber(
-                args.auth.user,
+                args.user,
                 args.phoneNumber,
                 args.recaptcha
             );

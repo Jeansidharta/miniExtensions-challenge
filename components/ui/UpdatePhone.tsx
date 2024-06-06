@@ -1,4 +1,4 @@
-import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
+import { ConfirmationResult, RecaptchaVerifier, User } from 'firebase/auth';
 import { FormPhone } from './FormPhone';
 import { verifyPhoneNumber } from '../redux/auth/verifyPhoneNumber';
 import { useAppDispatch } from '../redux/store';
@@ -6,25 +6,25 @@ import { useAuth } from '../useAuth';
 import { LoadingStateTypes } from '../redux/types';
 import { phoneNumberLinkVerificationCode } from '../redux/auth/phoneNumberLink';
 import { useRouter } from 'next/router';
+import ToastBox from './ToastBox';
 
-interface LoginPhoneProps { }
+interface LoginPhoneProps {
+    user: User;
+}
 
-export const UpdatePhone = ({ }: LoginPhoneProps) => {
+export const UpdatePhone = ({ user }: LoginPhoneProps) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const auth = useAuth();
 
     async function handleSubmitPhoneNumber(
         phoneNumber: string,
         recaptcha: RecaptchaVerifier,
         next: (confirmationResult: ConfirmationResult) => void
     ) {
-        if (auth.type !== LoadingStateTypes.LOADED) return;
-
         dispatch(
             phoneNumberLinkVerificationCode({
                 phoneNumber,
-                auth,
+                user,
                 recaptcha,
                 callback: (result) => {
                     if (result.type === 'error') {
@@ -55,6 +55,27 @@ export const UpdatePhone = ({ }: LoginPhoneProps) => {
     }
 
     return (
-        <FormPhone onSubmitPhoneNumber={handleSubmitPhoneNumber} onSubmitOtp={handleSubmitOtp} />
+        <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md space-y-8">
+                <div>
+                    <img
+                        className="w-auto h-12 mx-auto"
+                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                        alt="Workflow"
+                    />
+                    <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
+                        Sign in to your account
+                    </h2>
+                </div>
+
+                <div className="max-w-xl w-full rounded overflow-hidden shadow-lg py-2 px-4">
+                    <FormPhone
+                        onSubmitPhoneNumber={handleSubmitPhoneNumber}
+                        onSubmitOtp={handleSubmitOtp}
+                    />
+                </div>
+            </div>
+            <ToastBox />
+        </div>
     );
 };

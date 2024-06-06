@@ -3,6 +3,7 @@ import { loginWithEmail } from '../auth/loginWithEmail';
 import { verifyPhoneNumber } from '../auth/verifyPhoneNumber';
 import { loginWithPhoneNumberVerificationCode } from '../auth/loginWithPhoneNumber';
 import { phoneNumberLinkVerificationCode } from '../auth/phoneNumberLink';
+import { sendEmailLink } from '../auth/sendEmailLink';
 
 export interface LoadingStates {
     [key: string]: boolean;
@@ -30,7 +31,7 @@ export const loadingSlice = createSlice({
         builder.addCase(loginWithEmail.rejected, (state) => {
             state.loginWithEmail = false;
         });
-        // Send Verify Phone Number
+        // Link Phone Number OTP
         builder.addCase(phoneNumberLinkVerificationCode.pending, (state) => {
             state.phoneNumberLinkVerificationCode = true;
         });
@@ -40,6 +41,7 @@ export const loadingSlice = createSlice({
         builder.addCase(phoneNumberLinkVerificationCode.rejected, (state) => {
             state.phoneNumberLinkVerificationCode = false;
         });
+        // Login Phone Number OTP
         builder.addCase(loginWithPhoneNumberVerificationCode.pending, (state) => {
             state.loginWithPhoneNumberVerificationCode = true;
         });
@@ -48,6 +50,16 @@ export const loadingSlice = createSlice({
         });
         builder.addCase(loginWithPhoneNumberVerificationCode.rejected, (state) => {
             state.loginWithPhoneNumberVerificationCode = false;
+        });
+        // Send Email Link
+        builder.addCase(sendEmailLink.pending, (state) => {
+            state.sendEmailLink = true;
+        });
+        builder.addCase(sendEmailLink.fulfilled, (state) => {
+            state.sendEmailLink = false;
+        });
+        builder.addCase(sendEmailLink.rejected, (state) => {
+            state.sendEmailLink = false;
         });
         // Verify Phone Number
         builder.addCase(verifyPhoneNumber.pending, (state) => {

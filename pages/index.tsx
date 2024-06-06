@@ -3,10 +3,11 @@ import styles from '@/styles/Home.module.css';
 import { AuthGuard, useAuth } from '@/components/useAuth';
 import Logout from '@/components/ui/Logout';
 import { LoadingStateTypes } from '@/components/redux/types';
-import PhoneVerification from '@/components/ui/PhoneVerification';
 import { useAppDispatch } from '@/components/redux/store';
 import { fetchHomePageData } from '@/components/redux/homePage/fetchHomePageData';
 import { useEffect } from 'react';
+import { UpdatePhone } from '@/components/ui/UpdatePhone';
+import { UpdateEmail } from '@/components/ui/UpdateEmail';
 
 export function Home() {
     const dispatch = useAppDispatch();
@@ -16,6 +17,10 @@ export function Home() {
         dispatch(fetchHomePageData());
     }, []);
 
+    console.log(auth);
+
+    if (auth.type !== LoadingStateTypes.LOADED) return null;
+
     return (
         <div className={styles.container}>
             <Head>
@@ -23,10 +28,10 @@ export function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            {auth.type === LoadingStateTypes.LOADED &&
-                auth.user != null &&
-                auth.user.phoneNumber == null ? (
-                <PhoneVerification />
+            {auth.user.phoneNumber === null ? (
+                <UpdatePhone user={auth.user} />
+            ) : auth.user.email === null ? (
+                <UpdateEmail />
             ) : (
                 <main className={styles.main}>
                     <h1 className={styles.title}>

@@ -21,8 +21,6 @@ export type AuthContextType =
 export const useAuth = (): AuthContextType => {
     const [user, loading] = useAuthState(firebaseAuth);
 
-    console.log(user);
-
     return loading
         ? {
             type: LoadingStateTypes.LOADING,

@@ -6,9 +6,9 @@ import ToastBox from '@/components/ui/ToastBox';
 import LoginWithGoogleButton from '@/components/ui/LoginWithGoogleButton';
 import SignUpModal from '@/components/ui/SignUpModal';
 import LoginWithPhoneButton from '@/components/ui/LoginWithPhoneButton';
-import { LoginFormWithEmail } from '@/components/ui/LoginFormEmail';
 import LoginWithEmailButton from '@/components/ui/LoginWithEmailButton';
 import { LoginPhone } from '@/components/ui/LoginPhone';
+import { LoginEmail } from '@/components/ui/LoginEmail';
 
 export const googleLoginProvider = new GoogleAuthProvider();
 
@@ -39,7 +39,7 @@ const LoginPage: NextPage = () => {
                 <div className="max-w-xl w-full rounded overflow-hidden shadow-lg py-2 px-4">
                     <div className="flex gap-4 mb-5 flex-col">
                         {loginMethod === LoginMethods.Email ? (
-                            <LoginFormWithEmail />
+                            <LoginEmail />
                         ) : loginMethod === LoginMethods.Phone ? (
                             <LoginPhone />
                         ) : undefined}
@@ -68,7 +68,7 @@ const LoginPage: NextPage = () => {
                             <div className="flex justify-center">
                                 <div className="relative flex justify-center text-sm">
                                     <div className="font-small text-black-400">
-                                        Don&apos;t have an account?
+                                        Don't have an account?
                                     </div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
