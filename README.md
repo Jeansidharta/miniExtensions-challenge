@@ -1,7 +1,8 @@
-# Onboarding Video
+## How to run
 
-https://www.loom.com/share/1167ce5c38f54f9590ef31a7426c25e2
-
+- Clone this repository
+- Install the dependencies with `npm install`
+- Run the development instance with `npm run dev`
 
 ## Required
 
