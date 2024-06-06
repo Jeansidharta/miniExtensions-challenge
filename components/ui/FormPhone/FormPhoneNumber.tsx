@@ -1,0 +1,46 @@
+import { useState } from 'react';
+import Input from '../Input';
+import LoadingButton from '../LoadingButton';
+import { useRecapcha } from '../../useRecaptcha';
+import { RecaptchaVerifier } from 'firebase/auth';
+
+interface FormPhoneNumberProps {
+    onSubmit?: (phoneNumber: string, recaptcha: RecaptchaVerifier) => void;
+}
+
+export const FormPhoneNumber = ({ onSubmit }: FormPhoneNumberProps) => {
+    // TODO - Remove debug number
+    const [phoneNumber, setPhoneNumber] = useState('+1 330 599 9526');
+    const { recaptcha, isCaptchaResolved } = useRecapcha('recaptcha-container');
+
+    const disableSubmit = Boolean(phoneNumber.length < 6) || !isCaptchaResolved;
+
+    const handleSendVerification = async () => {
+        if (disableSubmit) {
+            return;
+        }
+
+        if (onSubmit) onSubmit(phoneNumber, recaptcha!);
+    };
+
+    return (
+        <form
+            className="flex gap-4 flex-col"
+            onSubmit={(e) => {
+                e.preventDefault();
+                handleSendVerification();
+            }}
+        >
+            <Input
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Phone Number"
+                type="tel"
+            />
+            <div id="recaptcha-container" className="flex justify-center" />
+            <LoadingButton onClick={handleSendVerification} disabled={disableSubmit}>
+                Send OTP
+            </LoadingButton>
+        </form>
+    );
+};

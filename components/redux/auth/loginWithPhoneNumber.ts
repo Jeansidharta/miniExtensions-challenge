@@ -11,7 +11,6 @@ export const loginWithPhoneNumberVerificationCode = createAsyncThunk(
     async (
         args: {
             phoneNumber: string;
-            recaptchaResolved: boolean;
             recaptcha: RecaptchaVerifier | null;
             callback: (
                 args:
@@ -24,9 +23,9 @@ export const loginWithPhoneNumberVerificationCode = createAsyncThunk(
         },
         { dispatch }
     ) => {
-        if (!args.recaptchaResolved || !args.recaptcha) {
-            dispatch(showToast({ message: 'First Resolved the Captcha', type: 'info' }));
-            return;
+        if (!args.recaptcha) {
+            // This is a bug, and therefore should throw
+            throw new Error('Provide a captcha');
         }
         if (args.phoneNumber.slice() === '' || args.phoneNumber.length < 10) {
             dispatch(

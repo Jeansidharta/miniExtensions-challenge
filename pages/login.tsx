@@ -7,8 +7,8 @@ import LoginWithGoogleButton from '@/components/ui/LoginWithGoogleButton';
 import SignUpModal from '@/components/ui/SignUpModal';
 import LoginWithPhoneButton from '@/components/ui/LoginWithPhoneButton';
 import { LoginFormWithEmail } from '@/components/ui/LoginFormEmail';
-import { LoginFormPhone } from '@/components/ui/LoginFormPhone';
 import LoginWithEmailButton from '@/components/ui/LoginWithEmailButton';
+import { LoginPhone } from '@/components/ui/LoginPhone';
 
 export const googleLoginProvider = new GoogleAuthProvider();
 
@@ -41,7 +41,7 @@ const LoginPage: NextPage = () => {
                         {loginMethod === LoginMethods.Email ? (
                             <LoginFormWithEmail />
                         ) : loginMethod === LoginMethods.Phone ? (
-                            <LoginFormPhone />
+                            <LoginPhone />
                         ) : undefined}
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">

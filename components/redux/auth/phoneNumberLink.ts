@@ -13,7 +13,6 @@ export const phoneNumberLinkVerificationCode = createAsyncThunk(
         args: {
             phoneNumber: string;
             auth: AuthContextType;
-            recaptchaResolved: boolean;
             recaptcha: RecaptchaVerifier | null;
             callback: (
                 args:
@@ -27,9 +26,8 @@ export const phoneNumberLinkVerificationCode = createAsyncThunk(
         { dispatch }
     ) => {
         if (args.auth.type !== LoadingStateTypes.LOADED) return;
-        if (!args.recaptchaResolved || !args.recaptcha) {
-            dispatch(showToast({ message: 'First Resolved the Captcha', type: 'info' }));
-            return;
+        if (!args.recaptcha) {
+            throw new Error ('You must provide a captcha');
         }
         if (args.phoneNumber.slice() === '' || args.phoneNumber.length < 10) {
             dispatch(
